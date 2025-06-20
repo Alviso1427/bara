@@ -155,10 +155,15 @@ for email, tab in EMAIL_TAB_MAP.items():
 
 if summary:
     df_summary = pd.DataFrame(summary)
-    st.markdown("#### 🧮 User-wise Check-in Summary")
-    st.dataframe(df_summary.pivot(index="User", columns="Event", values="Check-ins").fillna(0), use_container_width=True)
+    try:
+        dashboard_ws = sheet.worksheet("Dashboard")
+        dashboard_ws.clear()
+    except:
+        dashboard_ws = sheet.add_worksheet(title="Dashboard", rows="100", cols="20")
 
-    st.markdown("#### 📈 Event Scan Summary (All Participants)")
+    dashboard_data = df_summary.pivot(index="User", columns="Event", values="Check-ins").fillna(0).reset_index()
+    dashboard_ws.update([dashboard_data.columns.values.tolist()] + dashboard_data.values.tolist())
+        st.markdown("#### 📈 Event Scan Summary (All Participants)")
     total_event_summary = df_summary.groupby("Event")["Check-ins"].sum().to_frame().T
     st.dataframe(total_event_summary, use_container_width=True)
 
