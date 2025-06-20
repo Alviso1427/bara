@@ -168,4 +168,7 @@ if summary:
 
     dashboard_data = df_summary.pivot(index="User", columns="Event", values="Check-ins").fillna(0).reset_index()
     dashboard_ws.update([dashboard_data.columns.values.tolist()] + dashboard_data.values.tolist())
-st.markdown("#### 📈 Event Scan Summary (All Participants)")
+    st.markdown("#### 📈 Event Scan Summary (All Participants)")
+    total_event_summary = df_summary.groupby("Event")["Check-ins"].sum().reset_index()
+    total_event_summary = total_event_summary.set_index("Event").T
+    st.dataframe(total_event_summary, use_container_width=True)
