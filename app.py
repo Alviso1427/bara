@@ -167,20 +167,4 @@ if summary:
 
     dashboard_data = df_summary.pivot(index="User", columns="Event", values="Check-ins").fillna(0).reset_index()
     dashboard_ws.update([dashboard_data.columns.values.tolist()] + dashboard_data.values.tolist())
-        st.markdown("#### 📈 Event Scan Summary (All Participants)")
-    total_event_summary = df_summary.groupby("Event")["Check-ins"].sum().to_frame().T
-    st.dataframe(total_event_summary, use_container_width=True)
-
-    all_logs = []
-    for email, tab in EMAIL_TAB_MAP.items():
-        try:
-            df = pd.DataFrame(sheet.worksheet(tab).get_all_records())
-            df['User'] = email
-            all_logs.append(df)
-        except:
-            continue
-
-    if all_logs:
-        merged_logs = pd.concat(all_logs, ignore_index=True)
-        csv = merged_logs.to_csv(index=False).encode('utf-8')
-        st.download_button("📥 Download All Check-ins (CSV)", csv, "all_checkins.csv", "text/csv")
+    st.markdown("#### 📈 Event Scan Summary (All Participants)")
