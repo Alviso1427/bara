@@ -73,6 +73,10 @@ st.subheader("📥 Scan or Enter Barcode")
 barcode_input = st.text_input("Scan or Enter Barcode", key="barcode_input", max_chars=25)
 pure_barcode = barcode_input.strip()
 
+if st.button("🧹 Clear Barcode"):
+    st.session_state.barcode_input = ""
+    st.rerun()
+
 if barcode_input:
     if user_tab is None:
         st.warning("⚠️ Invalid user selection.")
