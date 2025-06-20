@@ -98,12 +98,11 @@ if barcode_input:
             event_cols = st.columns(len(EVENTS))
 
             for i, event in enumerate(EVENTS):
-                # Check if already checked in for this event
                 existing_data = pd.DataFrame(sheet.worksheet(user_tab).get_all_records())
                 duplicate = (
                     not existing_data.empty and
-                    (existing_data['Barcode'] == pure_barcode) & (existing_data['Event'] == event)
-                ).any()
+                    ((existing_data['Barcode'] == pure_barcode) & (existing_data['Event'] == event)).any()
+                )
 
                 if duplicate:
                     event_cols[i].button(f"✅ {event}", key=f"{event}_done", disabled=True)
