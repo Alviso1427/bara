@@ -159,7 +159,7 @@ if summary:
     st.dataframe(df_summary.pivot(index="User", columns="Event", values="Check-ins").fillna(0), use_container_width=True)
 
     st.markdown("#### 📈 Event Scan Summary (All Participants)")
-    total_event_summary = df_summary.groupby("Event")["Check-ins"].sum().reset_index()
+    total_event_summary = df_summary.groupby("Event")["Check-ins"].sum().to_frame().T
     st.dataframe(total_event_summary, use_container_width=True)
 
     all_logs = []
