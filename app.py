@@ -74,7 +74,8 @@ barcode_input = st.text_input("Scan or Enter Barcode", key="barcode_input", max_
 pure_barcode = barcode_input.strip()
 
 if st.button("🧹 Clear Barcode"):
-    st.session_state.barcode_input = ""
+    if "barcode_input" in st.session_state:
+        st.session_state.barcode_input = ""
     st.rerun()
 
 if barcode_input:
@@ -167,4 +168,4 @@ if summary:
 
     dashboard_data = df_summary.pivot(index="User", columns="Event", values="Check-ins").fillna(0).reset_index()
     dashboard_ws.update([dashboard_data.columns.values.tolist()] + dashboard_data.values.tolist())
-    st.markdown("#### 📈 Event Scan Summary (All Participants)")
+        st.markdown("#### 📈 Event Scan Summary (All Participants)")
