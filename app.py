@@ -98,7 +98,12 @@ if barcode_input:
             event_cols = st.columns(len(EVENTS))
 
             for i, event in enumerate(EVENTS):
-                existing_data = pd.DataFrame(sheet.worksheet(user_tab).get_all_records())
+                try:
+                    existing_data = pd.DataFrame(sheet.worksheet(user_tab).get_all_records())
+                except Exception as e:
+                    st.error(f"Failed to read data from sheet: {e}")
+                    existing_data = pd.DataFrame()
+
                 duplicate = (
                     not existing_data.empty and
                     ((existing_data['Barcode'] == pure_barcode) & (existing_data['Event'] == event)).any()
@@ -113,7 +118,7 @@ if barcode_input:
                             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                             ws.append_row([pure_barcode, arn, name, mobile, event, timestamp, selected_email])
                             st.success(f"{event} recorded for {name} in {user_tab}")
-                            st.experimental_rerun()
+                            st.rerun()  # replaces experimental_rerun
                         except Exception as e:
                             st.error(f"❌ Failed to write to Google Sheet: {e}")
         else:
