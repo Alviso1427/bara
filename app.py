@@ -82,11 +82,11 @@ if barcode_input:
         match = participants_df[participants_df['Barcode'].astype(str).str.strip() == pure_barcode]
         if not match.empty:
             row = match.iloc[0]
-            name = row.get('Name', '').strip()
-            arn = row.get('ARN Code', '').strip()
-            mobile = row.get('Mobile', '').strip()
-            email = row.get('Email', '').strip()
-            city = row.get('City', '').strip()
+            arn = str(row['ARN Code']).strip() if 'ARN Code' in row else ''
+            name = str(row['Name']).strip() if 'Name' in row else ''
+            mobile = str(row['Mobile']).strip() if 'Mobile' in row else ''
+            email = str(row['Email']).strip() if 'Email' in row else ''
+            city = str(row['City']).strip() if 'City' in row else ''
 
             st.success(f"✅ Found: {name}")
             cols = st.columns(3)
