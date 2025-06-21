@@ -23,7 +23,7 @@ EMAIL_TAB_MAP = {
 scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=scope)
 client = gspread.authorize(creds)
-sheet = client.open(GOOGLE_SHEET_NAME)
+sheet = client.open(EventCheckins)
 
 # STREAMLIT UI SETUP
 st.set_page_config(page_title="RP Event Participation Tracker", layout="wide")
